@@ -1,0 +1,134 @@
+> source('~/r_podstawy/pd1.R', encoding = 'UTF-8', echo=TRUE)
+
+> #1. Napisz funkcję sprawdzająca czy 1 liczba jest podzielna przez druga użyj - %%
+> 
+> print("Zad.1.")
+[1] "Zad.1."
+
+> czyPodzielnaBezReszty <- function(x,y){
++   wyn <- x%%y==0
++   print(paste("Czy liczba ", x, "jest podzielna przez ", y, "wynik jako TRUE albo FALSE ..." ... [TRUNCATED] 
+
+> czyPodzielnaBezReszty(4,3)
+[1] "Czy liczba  4 jest podzielna przez  3 wynik jako TRUE albo FALSE: FALSE"
+
+> czyPodzielnaBezReszty(4,2)
+[1] "Czy liczba  4 jest podzielna przez  2 wynik jako TRUE albo FALSE: TRUE"
+
+> #2. Pociąg z Lublina do Warszawy przejechał połowę drogi ze średnią prędkością 120 km/h.
+> 
+> #Drugą połowę przejechał ze średnią prędkością 90 km/h .... [TRUNCATED] 
+[1] "Zad.2."
+
+> x1 <- 120
+
+> x2 <- 90
+
+> wynik2 <- (x1+x2)/2
+
+> print(paste("średnia predkość pociągu to:", wynik2, " km/k"))
+[1] "średnia predkość pociągu to: 105  km/k"
+
+> #3. Utwórz funkcję obliczającą współczynnik korelacji r Pearsona dla 2 wektorów o tej samej długości.
+> #sWczytaj dane plik dane.csv i oblicz współc .... [TRUNCATED] 
+[1] "Zad.3."
+
+> df<-read.table(file="dane.csv",header=TRUE, sep=";")
+
+> obliczWspKorelacjiPearsona <- function(df){
++   w1 <- cor(df$waga, df$wzrost)
++   w2 <- cor(df)
++   print("macierz korelacji Pearsona:")
++   print(w .... [TRUNCATED] 
+
+> wynik3 <-obliczWspKorelacjiPearsona(df)
+[1] "macierz korelacji Pearsona:"
+             wzrost         waga         wiek
+wzrost  1.000000000  0.979345910 -0.009935429
+waga    0.979345910  1.000000000 -0.003687698
+wiek   -0.009935429 -0.003687698  1.000000000
+[1] "wsp korelacji Pearsona dla wagi i wzrostu:"
+[1] 0.9793459
+
+> # wartość współczynnika na poziomioe 0,979 (dodatnia) oznacza, że obie zmienne, tj. waga i wzrost są silnie ze sobą proporcjonalnie skorelowane.
+> 
+ .... [TRUNCATED] 
+[1] "Zad.4."
+
+> utworzDataFrame <- function(ile=1){
++   komunikat<-"podaj nazwy kolumn (oddzielone przecinkiem): "
++   wektorKolumn<-(strsplit(readline(komunikat)," ..." ... [TRUNCATED] 
+
+> wynik4 <-utworzDataFrame(2)
+podaj nazwy kolumn (oddzielone przecinkiem): a1,bb,c3
+[1] "Podaj wartości dla 2 wierszy"
+podaj wartości dla wiersza nr 1 (oddzielone przecinkiem): 1,2,3
+podaj wartości dla wiersza nr 2 (oddzielone przecinkiem): 22,11,66
+[1] "Utworzono dataframe jak poniżej"
+  a1 bb c3
+1  1  2  3
+2 22 11 66
+
+> #a1,a2,a3
+> #1,2,3
+> #22,33,44
+> 
+> 
+> #5 Napisz funkcję , która pobiera sciezkeKatalogu, nazweKolumny, jakaFunkcje, DlaIluPlikow i liczy: 
+> #mean, .... [TRUNCATED] 
+
+> test_sciezka <- "smogKrakow"
+
+> test_nazwaKolumny = "3_pressure"
+
+> x5_1 <-liczZplikow(test_sciezka, test_nazwaKolumny, jakaFunkcja="mean", DlaIluPlikow=3)
+[1] "dla pliku smogKrakow/0012017.csv dla kolumny X3_pressure wartość funkcji mean wynosi: 102030.895522388"
+[1] "dla pliku smogKrakow/0022017.csv dla kolumny X3_pressure wartość funkcji mean wynosi: 101734.128664495"
+[1] "dla pliku smogKrakow/0032017.csv dla kolumny X3_pressure wartość funkcji mean wynosi: 100882.043668122"
+
+> #x5_1
+> x5_2 <-liczZplikow(test_sciezka, test_nazwaKolumny, jakaFunkcja="median", DlaIluPlikow=3)
+[1] "dla pliku smogKrakow/0012017.csv dla kolumny X3_pressure wartość funkcji median wynosi: 102211"
+[1] "dla pliku smogKrakow/0022017.csv dla kolumny X3_pressure wartość funkcji median wynosi: 101763"
+[1] "dla pliku smogKrakow/0032017.csv dla kolumny X3_pressure wartość funkcji median wynosi: 100717"
+
+> #x5_2
+> x5_3 <-liczZplikow(test_sciezka, test_nazwaKolumny, jakaFunkcja="max", DlaIluPlikow=3)
+[1] "dla pliku smogKrakow/0012017.csv dla kolumny X3_pressure wartość funkcji max wynosi: 103081"
+[1] "dla pliku smogKrakow/0022017.csv dla kolumny X3_pressure wartość funkcji max wynosi: 103619"
+[1] "dla pliku smogKrakow/0032017.csv dla kolumny X3_pressure wartość funkcji max wynosi: 102369"
+
+> #x5_3
+> x5_4 <-liczZplikow(test_sciezka, test_nazwaKolumny, jakaFunkcja="min", DlaIluPlikow=3)
+[1] "dla pliku smogKrakow/0012017.csv dla kolumny X3_pressure wartość funkcji min wynosi: 100681"
+[1] "dla pliku smogKrakow/0022017.csv dla kolumny X3_pressure wartość funkcji min wynosi: 99160"
+[1] "dla pliku smogKrakow/0032017.csv dla kolumny X3_pressure wartość funkcji min wynosi: 99622"
+
+> #x5_4
+> 
+> test_nazwaKolumny = "147_temperature"
+
+> x5_1a <-liczZplikow(test_sciezka, test_nazwaKolumny, jakaFunkcja="mean", DlaIluPlikow=3)
+[1] "dla pliku smogKrakow/0012017.csv dla kolumny X147_temperature wartość funkcji mean wynosi: -4.88559892328398"
+[1] "dla pliku smogKrakow/0022017.csv dla kolumny X147_temperature wartość funkcji mean wynosi: -0.336309523809524"
+[1] "dla pliku smogKrakow/0032017.csv dla kolumny X147_temperature wartość funkcji mean wynosi: 5.27891156462585"
+
+> #x5_1a
+> x5_2a <-liczZplikow(test_sciezka, test_nazwaKolumny, jakaFunkcja="median", DlaIluPlikow=3)
+[1] "dla pliku smogKrakow/0012017.csv dla kolumny X147_temperature wartość funkcji median wynosi: -4"
+[1] "dla pliku smogKrakow/0022017.csv dla kolumny X147_temperature wartość funkcji median wynosi: 0"
+[1] "dla pliku smogKrakow/0032017.csv dla kolumny X147_temperature wartość funkcji median wynosi: 5"
+
+> #x5_2a
+> x5_3a <-liczZplikow(test_sciezka, test_nazwaKolumny, jakaFunkcja="max", DlaIluPlikow=3)
+[1] "dla pliku smogKrakow/0012017.csv dla kolumny X147_temperature wartość funkcji max wynosi: 4"
+[1] "dla pliku smogKrakow/0022017.csv dla kolumny X147_temperature wartość funkcji max wynosi: 15"
+[1] "dla pliku smogKrakow/0032017.csv dla kolumny X147_temperature wartość funkcji max wynosi: 18"
+
+> #x5_3a
+> x5_4a <-liczZplikow(test_sciezka, test_nazwaKolumny, jakaFunkcja="min", DlaIluPlikow=3)
+[1] "dla pliku smogKrakow/0012017.csv dla kolumny X147_temperature wartość funkcji min wynosi: -17"
+[1] "dla pliku smogKrakow/0022017.csv dla kolumny X147_temperature wartość funkcji min wynosi: -9"
+[1] "dla pliku smogKrakow/0032017.csv dla kolumny X147_temperature wartość funkcji min wynosi: -2"
+
+> #x5_4a
