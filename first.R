@@ -2,7 +2,7 @@
 print("hello")
 x<-123
 
-if(require(jsonlite) == FALSE){
+if(require(httr) == FALSE){
   install.packages("httr")
   library(httr)
 }
