@@ -138,4 +138,6 @@ for(w in 1: liczbaLinkow ){
   }
 }
 
+# praca domowa: pobranie danych z innego portalu ( np. otomoto)
+
 
