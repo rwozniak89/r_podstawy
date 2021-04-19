@@ -9,12 +9,18 @@ library(dplyr)
 library(stringr)
 library(gtools)
 library(rvest)
+
+
+#java -jar selenium-server-standalone-3.0.1.jar -port 4444
+
 # ?remoteDr
 remDr <- remoteDr(remoteServerAddr = "http://localhost",
                   port = 4444,
                   browserName = "chrome",
                   newSession = TRUE
                   )
+
+
 
 remDr%>% go("https://www.otodom.pl/sprzedaz/mieszkanie")
 
@@ -137,6 +143,8 @@ for(w in 1: liczbaLinkow ){
     mieszkania3<-smartbind(mieszkania3,df1)
   }
 }
+
+liczbaLinkow()
 
 # praca domowa: pobranie danych z innego portalu ( np. otomoto)
 
