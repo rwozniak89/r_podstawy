@@ -47,13 +47,12 @@ num<- 10
 wynik_zad3_1 <- rankAccount(df_konta1, colName, groupName, valueSort, num)
 wynik_zad3_1
 
-
 ##########################################
 #2.Tak jak w 1 tylko z uzyciem datachunku. 
 #przyklad naglowka:
 
 
-rankAccountBigDatatoChunk <- function(filename , size, colName, groupName, valueSort, num){
+rankAccountBigDatatoChunkV2 <- function(filename , size, colName, groupName, valueSort, num){
   header<- TRUE
   sep=","
   counter<-0
@@ -61,35 +60,82 @@ rankAccountBigDatatoChunk <- function(filename , size, colName, groupName, value
   print(paste0("rozmiar przeszukiwanych wierszy danych -linijka po linijce to:", size ))
   fileConnection<- file(description = filename, open = "r")
   data<-read.table(fileConnection,nrows=nrows_size,header=header,fill=TRUE,sep=sep)
-  columnNames<-names(data)
+  if(data1[,colName] != groupName)
+  {
+    data <- data[0,]
+    safe_trigger = 1
+  }
+  
+  
+  #print(paste0("data: ", data))
+  #columnNames<-names(data)
+  #print(paste0("columnNames: ", columnNames))
+  #View(data)
+  #print(class(data))
+  #print(object.size(data))
   repeat{
-    if(nrow(data)==0 |  counter >= size){
+    if((safe_trigger == 0 & nrow(data)==0) | counter >= size){
       close(fileConnection)
       break
     }
-    counter<-counter +  nrows_size
     #print(paste0("nrow(data): ", nrow(data)))
     #print(paste0("counter: ", counter))
     data1<-read.table(fileConnection,nrows=nrows_size,col.names = columnNames,fill=TRUE,sep=sep)
-    data <- rbind(data, data1) 
+    #print(paste0("data1: ", data1))
+    #print(class(data1))
+    #columnNames<-names(data1)
+    #print(paste0("columnNames: ", columnNames))
+    nro_data1 = nrow(data1)
+    if(nro_data1 >0)
+    {
+      if(data1[,colName] == groupName)
+      {
+        nro = nrow(data)
+        if(nro < num)
+        {
+          data <- rbind(data, data1)
+        }
+        else
+        {
+          min1 = (data1[,valueSort])
+          minData = min(data[,valueSort])
+          #print(paste0("2min data: ", minData," min data1: ", min1, ' len data:', nro, " num:", num ))
+          if(min1 > minData)
+          {
+            data <- data[data[,valueSort] != minData, ]
+            data <- rbind(data, data1)
+          }
+        }
+        safe_trigger = 0
+      }
+    }
+    
+    counter<-counter +  nrows_size
+    #if(counter %% 1000 == 0) print(paste0("counter:", counter))
   }
-  #data
-  wynik <- rankAccount(data, colName, groupName, valueSort, num)
-  wynik
+  #len = length(data)
+  #nro = nrow(data)
+  #print(paste0(' len data:', len, " num:", num, " nro:", nro ))
+  wynik_sortowania <- data[order(-data[valueSort]),]
+  wynik_sortowania
 }
 
 filename = "konta.csv"
-size = 1000
+size = 3000
 colName <- "occupation"
 groupName <- "NAUCZYCIEL"
 valueSort = "saldo"
 num<- 10
 
-wynik_zad3_2 <- rankAccountBigDatatoChunk(filename, size, colName, groupName, valueSort, num)
-wynik_zad3_2
+wynik_zad3_2v2 <- rankAccountBigDatatoChunkV2(filename, size, colName, groupName, valueSort, num)
+wynik_zad3_2v2
+
 
 #3.SPRAWIDZIC CZY DA SIE ZROBIC TO SAMO W zapytaniu SQL dla takich wartosci jak: tabelaZbazyDanych,occupation, nauczyciel, saldo
-
+#install.packages("odbc")
+library(odbc)
+#install.packages("RPostgres")
+library(RPostgres)
 # przygotowanie
 # połączenie i zapis do bazy danych tabeli z csv
 connectMe<-function(typ=Postgres(),dbname="ulvimbvm",host="tai.db.elephantsql.com",user="ulvimbvm", pass="NBN9Vp6JoWZMfYvu04hc36k7LFm-TeoN"){
@@ -138,7 +184,7 @@ rankAccountWithDB <- function(tabelaZbazyDanych ,colName, groupName, valueSort, 
 
 conn<-connectMe()
 #dbListTables(conn) T test tabeli
-#dbGetQuery(conn,"SELECT * FROM konta Limit 10") # test prostego zapytania
+#dbGetQuery(conn,"SELECT * FROM konta ORDER BY saldo Limit 10") # test prostego zapytania
 
 tabelaZbazyDanych = "konta"
 colName <- "occupation"
@@ -148,6 +194,3 @@ num<- 10
 
 wynik_zad3_3 <- rankAccountWithDB(tabelaZbazyDanych ,colName, groupName, valueSort, num)
 wynik_zad3_3
-
-
-
